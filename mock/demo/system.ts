@@ -136,7 +136,7 @@ const menuList = (() => {
 
 export default [
   {
-    url: '/basic-api/system/getAccountList',
+    url: '/web-api/system/getAccountList',
     timeout: 100,
     method: 'get',
     response: ({ query }) => {
@@ -145,7 +145,7 @@ export default [
     },
   },
   {
-    url: '/basic-api/system/getRoleListByPage',
+    url: '/web-api/system/getRoleListByPage',
     timeout: 100,
     method: 'get',
     response: ({ query }) => {
@@ -154,7 +154,7 @@ export default [
     },
   },
   {
-    url: '/basic-api/system/setRoleStatus',
+    url: '/web-api/system/setRoleStatus',
     timeout: 500,
     method: 'post',
     response: ({ query }) => {
@@ -163,7 +163,7 @@ export default [
     },
   },
   {
-    url: '/basic-api/system/getAllRoleList',
+    url: '/web-api/system/getAllRoleList',
     timeout: 100,
     method: 'get',
     response: () => {
@@ -171,7 +171,7 @@ export default [
     },
   },
   {
-    url: '/basic-api/system/getDeptList',
+    url: '/web-api/system/getDeptList',
     timeout: 100,
     method: 'get',
     response: () => {
@@ -179,7 +179,7 @@ export default [
     },
   },
   {
-    url: '/basic-api/system/getMenuList',
+    url: '/web-api/system/getMenuList',
     timeout: 100,
     method: 'get',
     response: () => {
@@ -187,7 +187,7 @@ export default [
     },
   },
   {
-    url: '/basic-api/system/accountExist',
+    url: '/web-api/system/accountExist',
     timeout: 500,
     method: 'post',
     response: ({ body }) => {

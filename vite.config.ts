@@ -24,12 +24,19 @@ export default async ({ command, mode }: ConfigEnv): Promise<UserConfig> => {
 
   const env = loadEnv(mode, root);
 
+  console.log('env=', env);
+
   // The boolean type read by loadEnv is a string. This function can be converted to boolean type
   const viteEnv = wrapperEnv(env);
 
   const { VITE_PUBLIC_PATH, VITE_PROXY, VITE_DROP_CONSOLE } = viteEnv;
 
   const isBuild = command === 'build';
+
+  const svrProxy = createProxy(VITE_PROXY);
+  console.log(svrProxy);
+  console.log(svrProxy['/web-api'].rewrite?.toString());
+  console.log(svrProxy['/upload'].rewrite?.toString());
 
   return {
     base: VITE_PUBLIC_PATH,
@@ -55,7 +62,22 @@ export default async ({ command, mode }: ConfigEnv): Promise<UserConfig> => {
     server: {
       host: true,
       // Load proxy configuration from .env
-      proxy: createProxy(VITE_PROXY),
+      // proxy: createProxy(VITE_PROXY),
+      proxy: {
+        ...createProxy(VITE_PROXY),
+        // '/web-api': {
+        //   target: 'http://localhost:3000',
+        //   changeOrigin: true,
+        //   ws: true,
+        //   rewrite: (path) => path.replace('/basic-api', ''),
+        // },
+        // '/upload': {
+        //   target: 'http://localhost:4000/upload',
+        //   changeOrigin: true,
+        //   ws: true,
+        //   rewrite: (path) => path.replace('/upload', ''),
+        // },
+      },
     },
     esbuild: {
       drop: VITE_DROP_CONSOLE ? ['console', 'debugger'] : [],
