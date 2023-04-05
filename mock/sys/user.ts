@@ -98,7 +98,7 @@ export default [
     },
   },
   {
-    url: '/web-api/admin/getUserInfo',
+    url: '/web-api/admin/info',
     method: 'get',
     response: (request: requestParams) => {
       const token = getRequestToken(request);
