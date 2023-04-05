@@ -55,8 +55,8 @@ export default [
     url: '/web-api/admin/login',
     timeout: 2000,
     method: 'post',
-    response: async (req: any): Promise<any> => {
-      console.log('req:', req);
+    response: (req: any): any => {
+      // console.log('req:', req);
       const { username, password } = req.body;
       const checkUser = createFakeUserList().find(
         (item) => item.username === username && password === item.password,
