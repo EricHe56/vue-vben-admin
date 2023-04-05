@@ -4,11 +4,11 @@ export default defineApplicationConfig({
   overrides: {
     server: {
       proxy: {
-        '/basic-api': {
+        '/web-api': {
           target: 'http://localhost:3000',
           changeOrigin: true,
           ws: true,
-          rewrite: (path) => path.replace(new RegExp(`^/basic-api`), ''),
+          rewrite: (path) => path.replace(new RegExp(`^/web-api`), ''),
           // only https
           // secure: false
         },
