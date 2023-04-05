@@ -1,5 +1,11 @@
 import { MockMethod } from 'vite-plugin-mock';
-import { resultError, resultSuccess, getRequestToken, requestParams } from '../_util';
+import {
+  resultError,
+  resultSuccess,
+  getRequestToken,
+  requestParams,
+  // redirectRequest,
+} from '../_util';
 
 export function createFakeUserList() {
   return [
@@ -46,11 +52,12 @@ const fakeCodeList: any = {
 export default [
   // mock user login
   {
-    url: '/web-api/login',
-    timeout: 200,
+    url: '/web-api/admin/login',
+    timeout: 2000,
     method: 'post',
-    response: ({ body }) => {
-      const { username, password } = body;
+    response: async (req: any): Promise<any> => {
+      console.log('req:', req);
+      const { username, password } = req.body;
       const checkUser = createFakeUserList().find(
         (item) => item.username === username && password === item.password,
       );
@@ -66,10 +73,32 @@ export default [
         realName,
         desc,
       });
+
+      // function: this way doesn't work
+      // const ret = await redirectRequest('POST', req);
+      // return ret;
+
+      // internal: this way doesn't work
+      // try {
+      //   const response = await fetch('http://127.0.0.1:8080' + req.url, {
+      //     method: 'POST',
+      //     headers: {
+      //       // "Content-Type": "application/json",
+      //     },
+      //     body: req.body === null ? null : JSON.stringify(req.body),
+      //   });
+      //   const respJson = await response.json();
+      //   console.log('Success:', respJson);
+      //   return respJson;
+      // } catch (error) {
+      //   console.error('Error:', error, '\n\n Error-Obj: ', JSON.stringify(error));
+      //   // console.error('Error-Obj: ', JSON.stringify(error));
+      //   return resultError('Incorrect account or password！');
+      // }
     },
   },
   {
-    url: '/web-api/getUserInfo',
+    url: '/web-api/admin/getUserInfo',
     method: 'get',
     response: (request: requestParams) => {
       const token = getRequestToken(request);
@@ -82,7 +111,7 @@ export default [
     },
   },
   {
-    url: '/web-api/getPermCode',
+    url: '/web-api/admin/getPermCode',
     timeout: 200,
     method: 'get',
     response: (request: requestParams) => {
@@ -98,7 +127,7 @@ export default [
     },
   },
   {
-    url: '/web-api/logout',
+    url: '/web-api/admin/logout',
     timeout: 200,
     method: 'get',
     response: (request: requestParams) => {
@@ -112,7 +141,7 @@ export default [
     },
   },
   {
-    url: '/web-api/testRetry',
+    url: '/web-api/admin/testRetry',
     statusCode: 405,
     method: 'get',
     response: () => {

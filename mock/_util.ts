@@ -60,3 +60,27 @@ export interface requestParams {
 export function getRequestToken({ headers }: requestParams): string | undefined {
   return headers?.authorization;
 }
+
+/**
+ * this way doesn't work
+ * @postBody this function is using for redirect request to third-party api server
+ */
+export async function redirectRequest(method = 'GET', req: any): Promise<any> {
+  console.log('req:', req);
+  try {
+    const response = await fetch('http://127.0.0.1:8080' + req.url, {
+      method: method,
+      headers: {
+        // "Content-Type": "application/json",
+      },
+      body: req.body === null ? null : JSON.stringify(req.body),
+    });
+    const respJson = await response.json();
+    console.log('Success:', respJson);
+    return respJson;
+  } catch (error) {
+    console.error('Error:', error, '\n\n Error-Obj: ', JSON.stringify(error));
+    // console.error('Error-Obj: ', JSON.stringify(error));
+    return resultError('Incorrect account or password！');
+  }
+}
