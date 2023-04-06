@@ -73,10 +73,28 @@ const transform: AxiosTransform = {
     // 在此处根据自己项目的实际情况对不同的code执行不同的操作
     // 如果不希望中断当前请求，请return数据，否则直接抛出异常即可
     let timeoutMsg = '';
+    const userStore = useUserStoreWithOut();
     switch (code) {
       case ResultEnum.TIMEOUT:
         timeoutMsg = t('sys.api.timeoutMessage');
-        const userStore = useUserStoreWithOut();
+        userStore.setToken(undefined);
+        userStore.logout(true);
+        break;
+
+      /**
+       * 	code:   msg
+       *   0:     "OK",
+       *   -1:    "错误",
+       *   50601: "登录失败！请稍后再试！",
+       *   50602: "无效签名！",
+       *   50603: "无效Token，请重新登录！",
+       *   50604: "获取用户信息失败！请重新登录！",
+       */
+      case 50601:
+      case 50602:
+      case 50603:
+      case 50604:
+        timeoutMsg = t('sys.api.errMsg' + code) + '<br>' + result;
         userStore.setToken(undefined);
         userStore.logout(true);
         break;

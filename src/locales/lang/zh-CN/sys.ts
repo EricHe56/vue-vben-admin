@@ -22,6 +22,12 @@ export default {
     errMsg503: '服务不可用，服务器暂时过载或维护!',
     errMsg504: '网络超时!',
     errMsg505: 'http版本不支持该请求!',
+    errMsg0: 'OK',
+    errMsg_1: '错误',
+    errMsg50601: '登录失败！请稍后再试！',
+    errMsg50602: '无效签名！',
+    errMsg50603: '无效Token，请重新登录！',
+    errMsg50604: '获取用户信息失败！请重新登录！',
   },
   app: { logoutTip: '温馨提醒', logoutMessage: '是否确认退出系统?', menuLoading: '菜单加载中...' },
   errorLog: {

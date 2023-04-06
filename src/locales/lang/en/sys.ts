@@ -23,6 +23,12 @@ export default {
     errMsg503: 'The service is unavailable, the server is temporarily overloaded or maintained!',
     errMsg504: 'Network timeout!',
     errMsg505: 'The http version does not support the request!',
+    errMsg0: 'OK',
+    errMsg_1: 'Error',
+    errMsg50601: 'Login Failed! please try it later!',
+    errMsg50602: 'Invalid sign!',
+    errMsg50603: 'Invalid token, please try it later!',
+    errMsg50604: 'Failed to get user info, please try it later!',
   },
   app: {
     logoutTip: 'Reminder',
