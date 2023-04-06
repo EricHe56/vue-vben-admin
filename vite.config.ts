@@ -5,10 +5,10 @@ export default defineApplicationConfig({
     server: {
       proxy: {
         '/web-api': {
-          target: 'http://localhost:3000',
+          target: 'http://127.0.0.1:8080',
           changeOrigin: true,
           ws: true,
-          rewrite: (path) => path.replace(new RegExp(`^/web-api`), ''),
+          // rewrite: (path) => path.replace(new RegExp(`^/web-api`), ''),
           // only https
           // secure: false
         },
