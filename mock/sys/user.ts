@@ -111,7 +111,7 @@ export default [
     },
   },
   {
-    url: '/web-api/admin/getPermCode',
+    url: '/web-api/admin/get_perm_code',
     timeout: 200,
     method: 'get',
     response: (request: requestParams) => {
