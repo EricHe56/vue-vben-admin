@@ -61,11 +61,11 @@
   import { computed, unref, ref, watch, nextTick } from 'vue';
   import { SearchOutlined } from '@ant-design/icons-vue';
   import AppSearchFooter from './AppSearchFooter.vue';
-  import Icon from '/@/components/Icon';
+  import Icon from '@/components/Icon/Icon.vue';
   // @ts-ignore
   import vClickOutside from '/@/directives/clickOutside';
   import { useDesign } from '/@/hooks/web/useDesign';
-  import { useRefs } from '/@/hooks/core/useRefs';
+  import { useRefs } from '@vben/hooks';
   import { useMenuSearch } from './useMenuSearch';
   import { useI18n } from '/@/hooks/web/useI18n';
   import { useAppInject } from '/@/hooks/web/useAppInject';
@@ -81,7 +81,7 @@
 
   const { t } = useI18n();
   const { prefixCls } = useDesign('app-search-modal');
-  const [refs, setRefs] = useRefs();
+  const { refs, setRefs } = useRefs();
   const { getIsMobile } = useAppInject();
 
   const { handleSearch, searchResult, keyword, activeIndex, handleEnter, handleMouseenter } =
