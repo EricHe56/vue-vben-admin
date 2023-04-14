@@ -90,6 +90,14 @@ const transform: AxiosTransform = {
        *   50603: "无效Token，请重新登录！",
        *   50604: "获取用户信息失败！请重新登录！",
        */
+      case 0:
+        if (message) {
+          timeoutMsg = message;
+        }
+        break;
+      case -1:
+        timeoutMsg = t('sys.api.errMsg_1') + '<br>' + result;
+        break;
       case 50601:
       case 50602:
       case 50603:
