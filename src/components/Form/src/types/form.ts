@@ -30,6 +30,7 @@ export interface FormActionType {
   getFieldsValue: () => Recordable;
   clearValidate: (name?: string | string[]) => Promise<void>;
   updateSchema: (data: Partial<FormSchema> | Partial<FormSchema>[]) => Promise<void>;
+  replaceSchema: (data: Partial<FormSchema> | Partial<FormSchema>[]) => Promise<void>;
   resetSchema: (data: Partial<FormSchema> | Partial<FormSchema>[]) => Promise<void>;
   setProps: (formProps: Partial<FormProps>) => Promise<void>;
   removeSchemaByField: (field: string | string[]) => Promise<void>;

@@ -63,6 +63,11 @@ export function useForm(props?: Props): UseFormReturnType {
       form.updateSchema(data);
     },
 
+    replaceSchema: async (data: Partial<FormSchema> | Partial<FormSchema>[]) => {
+      const form = await getForm();
+      form.replaceSchema(data);
+    },
+
     resetSchema: async (data: Partial<FormSchema> | Partial<FormSchema>[]) => {
       const form = await getForm();
       form.resetSchema(data);
