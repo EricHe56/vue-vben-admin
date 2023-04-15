@@ -109,4 +109,8 @@ export default {
     smsCode: 'SMS code',
     mobile: 'Mobile',
   },
+  dept: {
+    parentCanNotBeSelfOrChild: 'Parent department cannot be self or child',
+    parentCanNotEmpty: 'Parent department cannot be empty',
+  },
 };

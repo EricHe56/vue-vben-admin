@@ -6,7 +6,7 @@ export const columns: BasicColumn[] = [
   {
     title: '部门名称',
     dataIndex: 'deptName',
-    width: 160,
+    width: 180,
     align: 'left',
   },
   {
@@ -50,8 +50,8 @@ export const searchFormSchema: FormSchema[] = [
     component: 'Select',
     componentProps: {
       options: [
-        { label: '启用', value: '0' },
-        { label: '停用', value: '1' },
+        { label: '启用', value: 0 },
+        { label: '停用', value: 1 },
       ],
     },
     colProps: { span: 8 },
@@ -78,23 +78,30 @@ export const formSchema: FormSchema[] = [
       },
       getPopupContainer: () => document.body,
     },
-    required: true,
+    required: false,
   },
   {
     field: 'orderNo',
     label: '排序',
     component: 'InputNumber',
     required: true,
+    defaultValue: 1,
+    componentProps: {
+      min: 1,
+    },
+    colProps: {
+      span: 10,
+    },
   },
   {
     field: 'status',
     label: '状态',
     component: 'RadioButtonGroup',
-    defaultValue: '0',
+    defaultValue: 0,
     componentProps: {
       options: [
-        { label: '启用', value: '0' },
-        { label: '停用', value: '1' },
+        { label: '启用', value: 0 },
+        { label: '停用', value: 1 },
       ],
     },
     required: true,

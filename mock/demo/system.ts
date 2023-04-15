@@ -171,7 +171,7 @@ export default [
     },
   },
   {
-    url: '/web-api/system/getDeptList',
+    url: '/web-api/admin_dept/list',
     timeout: 100,
     method: 'get',
     response: () => {

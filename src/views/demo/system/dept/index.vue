@@ -33,12 +33,18 @@
   import { defineComponent } from 'vue';
 
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
-  import { getDeptList } from '/@/api/demo/system';
+  import { getDeptList, deleteDept } from '/@/api/demo/system';
 
   import { useModal } from '/@/components/Modal';
   import DeptModal from './DeptModal.vue';
 
   import { columns, searchFormSchema } from './dept.data';
+
+  import { useMessage } from '/@/hooks/web/useMessage';
+  import { useI18n } from '/@/hooks/web/useI18n';
+
+  const { createErrorModal } = useMessage();
+  const { t } = useI18n();
 
   export default defineComponent({
     name: 'DeptManagement',
@@ -74,6 +80,7 @@
           isUpdate: false,
         });
       }
+      type Recordable<T = any> = Record<string, T>;
 
       function handleEdit(record: Recordable) {
         openModal(true, {
@@ -82,8 +89,21 @@
         });
       }
 
-      function handleDelete(record: Recordable) {
+      async function handleDelete(record: Recordable) {
         console.log(record);
+        try {
+          const postData: any = record;
+          await deleteDept(
+            postData,
+            'none', //不要默认的错误提示
+          );
+          reload();
+        } catch (error) {
+          createErrorModal({
+            title: t('sys.api.errorTip'),
+            content: (error as unknown as Error).message || t('sys.api.networkExceptionMsg'),
+          });
+        }
       }
 
       function handleSuccess() {

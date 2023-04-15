@@ -33,6 +33,20 @@ export interface AccountListItem {
   status: number;
 }
 
+export interface AdminDept {
+  dbId: string;
+  ctime: number;
+  mtime: number;
+  status: number;
+  id: string;
+  deptName: string;
+  orderNo: number;
+  createTime: string;
+  remark: string;
+  children: AdminDept[];
+  parentDept: string;
+}
+
 export interface DeptListItem {
   id: string;
   orderNo: string;
