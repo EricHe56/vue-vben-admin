@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="padding: 16px">
     <BasicTable @register="registerTable">
       <template #toolbar>
         <a-button type="primary" @click="handleCreate"> 新增部门 </a-button>
@@ -61,7 +61,7 @@
         },
         pagination: false,
         striped: false,
-        useSearchForm: true,
+        // useSearchForm: true,
         showTableSetting: true,
         bordered: true,
         showIndexColumn: false,
