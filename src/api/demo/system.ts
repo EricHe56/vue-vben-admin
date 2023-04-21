@@ -10,6 +10,7 @@ import {
   RolePageListGetResultModel,
   RoleListGetResultModel,
   AdminDept,
+  AdminMenu,
 } from './model/systemModel';
 import { defHttp } from '/@/utils/http/axios';
 import { ErrorMessageMode } from '/#/axios';
@@ -17,12 +18,19 @@ import { ErrorMessageMode } from '/#/axios';
 enum Api {
   AccountList = '/system/getAccountList',
   IsAccountExist = '/system/accountExist',
-  DeptInsert = '/admin_dept/insert',
-  DeptReplace = '/admin_dept/replace',
-  DeptDelete = '/admin_dept/delete',
-  DeptList = '/admin_dept/list',
+
+  DeptInsert = '/admin_dept/insert?ty=dept',
+  DeptReplace = '/admin_dept/replace?ty=dept',
+  DeptDelete = '/admin_dept/delete?ty=dept',
+  DeptList = '/admin_dept/list?ty=dept',
+
   setRoleStatus = '/system/setRoleStatus',
-  MenuList = '/system/getMenuList',
+
+  MenuInsert = '/admin_menu/insert?ty=menu',
+  MenuReplace = '/admin_menu/replace?ty=menu',
+  MenuDelete = '/admin_menu/delete?ty=menu',
+  MenuList = '/admin_menu/list?ty=menu',
+
   RolePageList = '/system/getRoleListByPage',
   GetAllRoleList = '/system/getAllRoleList',
 }
@@ -65,6 +73,39 @@ export const deleteDept = (params: AdminDept, mode: ErrorMessageMode = 'modal') 
 
 export const getDeptList = (params?: DeptListItem) =>
   defHttp.get<DeptListGetResultModel>({ url: Api.DeptList, params });
+
+export const insertMenu = (params: AdminMenu, mode: ErrorMessageMode = 'modal') =>
+  defHttp.post<AdminMenu>(
+    {
+      url: Api.MenuInsert,
+      params,
+    },
+    {
+      errorMessageMode: mode,
+    },
+  );
+
+export const replaceMenu = (params: AdminMenu, mode: ErrorMessageMode = 'modal') =>
+  defHttp.post<AdminMenu>(
+    {
+      url: Api.MenuReplace,
+      params,
+    },
+    {
+      errorMessageMode: mode,
+    },
+  );
+
+export const deleteMenu = (params: AdminMenu, mode: ErrorMessageMode = 'modal') =>
+  defHttp.post<AdminMenu>(
+    {
+      url: Api.MenuDelete,
+      params,
+    },
+    {
+      errorMessageMode: mode,
+    },
+  );
 
 export const getMenuList = (params?: MenuParams) =>
   defHttp.get<MenuListGetResultModel>({ url: Api.MenuList, params });

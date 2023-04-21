@@ -47,6 +47,72 @@ export interface AdminDept {
   parentDept: string;
 }
 
+export interface AdminRouteMeta {
+  orderNo?: number;
+  title: string;
+  dynamicLevel?: number;
+  realPath?: string;
+  ignoreAuth?: boolean;
+  roles?: string[];
+  ignoreKeepAlive?: boolean;
+  affix?: boolean;
+  icon?: string;
+  frameSrc?: string;
+  transitionName?: string;
+  hideBreadcrumb?: boolean;
+  hideChildrenInMenu?: boolean;
+  carryParam?: boolean;
+  single?: boolean;
+  currentActiveMenu?: string;
+  hideTab?: boolean;
+  hideMenu?: boolean;
+  isLink?: boolean;
+  ignoreRoute?: boolean;
+  hidePathForChildren?: boolean;
+}
+
+export interface AdminMenuTag {
+  type?: string;
+  content?: string;
+  dot?: boolean;
+}
+
+export interface AdminMenu {
+  dbId: string;
+  ctime: number;
+  mtime: number;
+  status: number;
+  id: string;
+  component?: string;
+  type: string;
+  menuName: string;
+  permission: string;
+  orderNo: number;
+  createTime: string;
+  parentMenu: string;
+  name: string;
+  icon?: string;
+  routePath: string;
+  path: string;
+  paramPath?: string;
+  isExt: number;
+  keepAlive: number;
+  show: number;
+  disabled?: boolean;
+  children?: AdminMenu[];
+  roles?: string[];
+  meta?: AdminRouteMeta;
+  tag?: AdminMenuTag;
+  hideMenu?: boolean;
+  redirect?: string;
+  props?: { [key: string]: any };
+  instances?: { [key: string]: any };
+  leaveGuards?: { [key: string]: any };
+  updateGuards?: { [key: string]: any };
+  enterCallbacks?: { [key: string]: any };
+  components?: { [key: string]: any };
+}
+
 export interface DeptListItem {
   id: string;
   orderNo: string;

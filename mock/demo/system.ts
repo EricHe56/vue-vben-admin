@@ -179,7 +179,7 @@ export default [
     },
   },
   {
-    url: '/web-api/system/getMenuList',
+    url: '/web-api/admin_menu/list',
     timeout: 100,
     method: 'get',
     response: () => {
