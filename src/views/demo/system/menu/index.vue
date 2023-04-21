@@ -34,6 +34,7 @@
 
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { getMenuList, deleteMenu } from '/@/api/demo/system';
+  // import { AdminMenu } from '/@/api/demo/model/systemModel';
 
   import { useDrawer } from '/@/components/Drawer';
   import MenuDrawer from './MenuDrawer.vue';
@@ -54,12 +55,14 @@
       const [registerTable, { reload, expandAll }] = useTable({
         title: '菜单列表',
         api: getMenuList,
+        afterFetch: afterFetch,
         columns,
         formConfig: {
           labelWidth: 120,
           schemas: searchFormSchema,
         },
         isTreeTable: true,
+        indentSize: 20,
         pagination: false,
         striped: false,
         // useSearchForm: true,
@@ -75,6 +78,27 @@
           fixed: undefined,
         },
       });
+
+      const typeList = [
+        { label: '目录', value: '0' },
+        { label: '菜单', value: '1' },
+        { label: '按钮', value: '2' },
+      ];
+      function afterFetch(dataList: any[]) {
+        // console.log('1. dataList: ', dataList);
+        dataList.forEach((data: any) => {
+          data.typeDisplay = typeList.filter((a) => a.value === data.type).map((b) => b.label) + '';
+          if (
+            typeof data.children !== 'undefined' &&
+            data.children !== null &&
+            data.children.length > 0
+          ) {
+            afterFetch(data.children);
+          }
+        });
+        // console.log('2. dataList: ', dataList);
+        return dataList;
+      }
 
       function handleCreate() {
         openDrawer(true, {

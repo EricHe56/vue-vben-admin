@@ -5,7 +5,7 @@ import Icon from '@/components/Icon/Icon.vue';
 
 export const columns: BasicColumn[] = [
   {
-    title: '菜单名称',
+    title: '名称',
     dataIndex: 'menuName',
     width: 200,
     align: 'left',
@@ -19,6 +19,11 @@ export const columns: BasicColumn[] = [
     },
   },
   {
+    title: '类型',
+    dataIndex: 'typeDisplay',
+    width: 180,
+  },
+  {
     title: '权限标识',
     dataIndex: 'permission',
     width: 180,
@@ -30,7 +35,8 @@ export const columns: BasicColumn[] = [
   {
     title: '排序',
     dataIndex: 'orderNo',
-    width: 50,
+    width: 100,
+    align: 'left',
   },
   {
     title: '状态',
@@ -136,7 +142,7 @@ export const formSchema: FormSchema[] = [
     field: 'icon',
     label: '图标',
     component: 'IconPicker',
-    required: true,
+    required: false,
     ifShow: ({ values }) => !isButton(values.type),
   },
 
@@ -158,7 +164,7 @@ export const formSchema: FormSchema[] = [
     field: 'redirect',
     label: 'Vue重定向',
     component: 'Input',
-    required: true,
+    required: false,
     ifShow: ({ values }) => !isButton(values.type),
   },
   {
@@ -206,8 +212,8 @@ export const formSchema: FormSchema[] = [
     defaultValue: 0,
     componentProps: {
       options: [
-        { label: '否', value: 0 },
         { label: '是', value: 1 },
+        { label: '否', value: 0 },
       ],
     },
     ifShow: ({ values }) => isMenu(values.type),
