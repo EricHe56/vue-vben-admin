@@ -94,6 +94,7 @@ export type ComponentType =
   | 'ApiTree'
   | 'ApiTreeSelect'
   | 'ApiRadioGroup'
+  | 'MenuMeta'
   | 'RadioButtonGroup'
   | 'RadioGroup'
   | 'Checkbox'

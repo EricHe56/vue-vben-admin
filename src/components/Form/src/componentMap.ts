@@ -22,6 +22,7 @@ import {
 } from 'ant-design-vue';
 
 import ApiRadioGroup from './components/ApiRadioGroup.vue';
+import MenuMeta from './components/MenuMeta.vue';
 import RadioButtonGroup from './components/RadioButtonGroup.vue';
 import ApiSelect from './components/ApiSelect.vue';
 import ApiTree from './components/ApiTree.vue';
@@ -50,6 +51,7 @@ componentMap.set('TreeSelect', TreeSelect);
 componentMap.set('ApiTreeSelect', ApiTreeSelect);
 componentMap.set('ApiRadioGroup', ApiRadioGroup);
 componentMap.set('Switch', Switch);
+componentMap.set('MenuMeta', MenuMeta);
 componentMap.set('RadioButtonGroup', RadioButtonGroup);
 componentMap.set('RadioGroup', Radio.Group);
 componentMap.set('Checkbox', Checkbox);
