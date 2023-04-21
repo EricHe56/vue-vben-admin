@@ -1,6 +1,6 @@
 <template>
   <div style="padding: 16px">
-    <BasicTable @register="registerTable">
+    <BasicTable @register="registerTable" @fetch-success="onFetchSuccess">
       <template #toolbar>
         <a-button type="primary" @click="handleCreate"> 新增部门 </a-button>
       </template>
@@ -30,7 +30,7 @@
   </div>
 </template>
 <script lang="ts">
-  import { defineComponent } from 'vue';
+  import { defineComponent, nextTick } from 'vue';
 
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { getDeptList, deleteDept } from '/@/api/demo/system';
@@ -51,7 +51,7 @@
     components: { BasicTable, DeptModal, TableAction },
     setup() {
       const [registerModal, { openModal }] = useModal();
-      const [registerTable, { reload }] = useTable({
+      const [registerTable, { reload, expandAll }] = useTable({
         title: '部门列表',
         api: getDeptList,
         columns,
@@ -59,6 +59,7 @@
           labelWidth: 120,
           schemas: searchFormSchema,
         },
+        isTreeTable: true,
         pagination: false,
         striped: false,
         // useSearchForm: true,
@@ -110,6 +111,11 @@
         reload();
       }
 
+      function onFetchSuccess() {
+        // 演示默认展开所有表项
+        nextTick(expandAll);
+      }
+
       return {
         registerTable,
         registerModal,
@@ -117,6 +123,7 @@
         handleEdit,
         handleDelete,
         handleSuccess,
+        onFetchSuccess,
       };
     },
   });
