@@ -38,7 +38,7 @@ export const columns: BasicColumn[] = [
     width: 80,
     customRender: ({ record }) => {
       const status = record.status;
-      const enable = ~~status === 0;
+      const enable = ~~status === 1;
       const color = enable ? 'green' : 'red';
       const text = enable ? '启用' : '停用';
       return h(Tag, { color: color }, () => text);
@@ -68,8 +68,8 @@ export const searchFormSchema: FormSchema[] = [
     component: 'Select',
     componentProps: {
       options: [
-        { label: '启用', value: '0' },
-        { label: '停用', value: '1' },
+        { label: '启用', value: 1 },
+        { label: '停用', value: 0 },
       ],
     },
     colProps: { span: 8 },
@@ -97,6 +97,13 @@ export const formSchema: FormSchema[] = [
     component: 'Input',
     required: true,
   },
+  {
+    field: 'name',
+    label: 'Vue名称',
+    component: 'Input',
+    required: true,
+    ifShow: ({ values }) => !isButton(values.type),
+  },
 
   {
     field: 'parentMenu',
@@ -117,6 +124,13 @@ export const formSchema: FormSchema[] = [
     label: '排序',
     component: 'InputNumber',
     required: true,
+    defaultValue: 1,
+    componentProps: {
+      min: 1,
+    },
+    colProps: {
+      span: 2,
+    },
   },
   {
     field: 'icon',
@@ -129,6 +143,20 @@ export const formSchema: FormSchema[] = [
   {
     field: 'routePath',
     label: '路由地址',
+    component: 'Input',
+    required: true,
+    ifShow: ({ values }) => !isButton(values.type),
+  },
+  {
+    field: 'path',
+    label: 'Vue路径',
+    component: 'Input',
+    required: true,
+    ifShow: ({ values }) => !isButton(values.type),
+  },
+  {
+    field: 'redirect',
+    label: 'Vue重定向',
     component: 'Input',
     required: true,
     ifShow: ({ values }) => !isButton(values.type),
@@ -149,11 +177,11 @@ export const formSchema: FormSchema[] = [
     field: 'status',
     label: '状态',
     component: 'RadioButtonGroup',
-    defaultValue: '0',
+    defaultValue: 0,
     componentProps: {
       options: [
-        { label: '启用', value: '0' },
-        { label: '禁用', value: '1' },
+        { label: '启用', value: 1 },
+        { label: '禁用', value: 0 },
       ],
     },
   },
@@ -161,11 +189,11 @@ export const formSchema: FormSchema[] = [
     field: 'isExt',
     label: '是否外链',
     component: 'RadioButtonGroup',
-    defaultValue: '0',
+    defaultValue: 0,
     componentProps: {
       options: [
-        { label: '否', value: '0' },
-        { label: '是', value: '1' },
+        { label: '是', value: 1 },
+        { label: '否', value: 0 },
       ],
     },
     ifShow: ({ values }) => !isButton(values.type),
@@ -175,11 +203,11 @@ export const formSchema: FormSchema[] = [
     field: 'keepalive',
     label: '是否缓存',
     component: 'RadioButtonGroup',
-    defaultValue: '0',
+    defaultValue: 0,
     componentProps: {
       options: [
-        { label: '否', value: '0' },
-        { label: '是', value: '1' },
+        { label: '否', value: 0 },
+        { label: '是', value: 1 },
       ],
     },
     ifShow: ({ values }) => isMenu(values.type),
@@ -189,13 +217,21 @@ export const formSchema: FormSchema[] = [
     field: 'show',
     label: '是否显示',
     component: 'RadioButtonGroup',
-    defaultValue: '0',
+    defaultValue: 0,
     componentProps: {
       options: [
-        { label: '是', value: '0' },
-        { label: '否', value: '1' },
+        { label: '是', value: 1 },
+        { label: '否', value: 0 },
       ],
     },
+    ifShow: ({ values }) => !isButton(values.type),
+  },
+  {
+    field: 'meta',
+    label: 'Meta',
+    component: 'MenuMeta',
+    required: true,
+    // rules: [{ required: true, message: 'Meta is required', trigger: 'change', type: 'object' }],
     ifShow: ({ values }) => !isButton(values.type),
   },
 ];

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="padding: 16px">
     <BasicTable @register="registerTable" @fetch-success="onFetchSuccess">
       <template #toolbar>
         <a-button type="primary" @click="handleCreate"> 新增菜单 </a-button>
@@ -33,12 +33,18 @@
   import { defineComponent, nextTick } from 'vue';
 
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
-  import { getMenuList } from '/@/api/demo/system';
+  import { getMenuList, deleteMenu } from '/@/api/demo/system';
 
   import { useDrawer } from '/@/components/Drawer';
   import MenuDrawer from './MenuDrawer.vue';
 
   import { columns, searchFormSchema } from './menu.data';
+
+  import { useMessage } from '/@/hooks/web/useMessage';
+  import { useI18n } from '/@/hooks/web/useI18n';
+
+  const { createErrorModal } = useMessage();
+  const { t } = useI18n();
 
   export default defineComponent({
     name: 'MenuManagement',
@@ -56,7 +62,7 @@
         isTreeTable: true,
         pagination: false,
         striped: false,
-        useSearchForm: true,
+        // useSearchForm: true,
         showTableSetting: true,
         bordered: true,
         showIndexColumn: false,
@@ -72,19 +78,105 @@
 
       function handleCreate() {
         openDrawer(true, {
+          record: {
+            type: 0,
+            id: '',
+            menuName: '',
+            name: '',
+            routePath: '',
+            path: '',
+            redirect: '',
+            component: '',
+            permission: '',
+            isExt: false,
+            keepalive: false,
+            show: false,
+            orderNo: 1,
+            icon: '',
+            parentMenu: '',
+            status: 0,
+            meta: {
+              orderNo: 1,
+              title: '',
+              dynamicLevel: 0,
+              realPath: '',
+              ignoreAuth: false,
+              roles: [],
+              ignoreKeepAlive: false,
+              affix: false,
+              icon: '',
+              frameSrc: '',
+              transitionName: '',
+              hideBreadcrumb: false,
+              hideChildrenInMenu: false,
+              carryParam: false,
+              single: false,
+              currentActiveMenu: '',
+              hideTab: false,
+              hideMenu: false,
+              isLink: false,
+              ignoreRoute: false,
+              hidePathForChildren: false,
+              validated: true,
+            },
+          },
           isUpdate: false,
         });
       }
 
-      function handleEdit(record: Recordable) {
+      type Recordable<T = any> = Record<string, T>;
+
+      function handleEdit(recordRaw: Recordable) {
+        const record: Recordable = JSON.parse(JSON.stringify(recordRaw));
+        if (typeof record.meta === 'undefined') {
+          record.meta = {
+            orderNo: 1,
+            title: '',
+            dynamicLevel: 0,
+            realPath: '',
+            ignoreAuth: false,
+            roles: [],
+            ignoreKeepAlive: false,
+            affix: false,
+            icon: '',
+            frameSrc: '',
+            transitionName: '',
+            hideBreadcrumb: false,
+            hideChildrenInMenu: false,
+            carryParam: false,
+            single: false,
+            currentActiveMenu: '',
+            hideTab: false,
+            hideMenu: false,
+            isLink: false,
+            ignoreRoute: false,
+            hidePathForChildren: false,
+            validated: true,
+          };
+        } else {
+          record.meta.validated = true;
+        }
         openDrawer(true, {
           record,
           isUpdate: true,
         });
       }
 
-      function handleDelete(record: Recordable) {
+      async function handleDelete(record: Recordable) {
         console.log(record);
+        try {
+          const postData: any = record;
+          await deleteMenu(
+            postData,
+            'none', //不要默认的错误提示
+          );
+          reload();
+        } catch (error) {
+          createErrorModal({
+            title: t('sys.api.errorTip'),
+            content: (error as unknown as Error).message || t('sys.api.networkExceptionMsg'),
+          });
+        }
       }
 
       function handleSuccess() {

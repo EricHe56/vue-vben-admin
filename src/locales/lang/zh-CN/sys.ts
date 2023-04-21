@@ -107,4 +107,9 @@ export default {
     parentCanNotBeSelfOrChild: '不可指定自身或下属部门为上级',
     parentCanNotEmpty: '上级部门不可为空',
   },
+  menu: {
+    parentCanNotBeSelfOrChild: '不可指定自身或下级菜单为上级',
+    parentCanNotEmpty: '上级菜单不可为空',
+    metaInvalid: 'Meta信息无效！',
+  },
 };

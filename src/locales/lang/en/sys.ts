@@ -113,4 +113,9 @@ export default {
     parentCanNotBeSelfOrChild: 'Parent department cannot be self or child',
     parentCanNotEmpty: 'Parent department cannot be empty',
   },
+  menu: {
+    parentCanNotBeSelfOrChild: 'Parent menu cannot be self or child',
+    parentCanNotEmpty: 'Parent menu cannot be empty',
+    metaInvalid: 'Meta info invalid',
+  },
 };
