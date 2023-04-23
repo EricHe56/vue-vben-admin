@@ -143,5 +143,5 @@ export const withInstall = <T extends CustomComponent>(component: T, alias?: str
 };
 
 export const getValue = (obj: any, def: any): any => {
-  return typeof obj !== 'undefined' ? obj : def;
+  return typeof obj !== 'undefined' && obj !== null ? obj : def;
 };
