@@ -33,12 +33,18 @@
   import { defineComponent } from 'vue';
 
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
-  import { getRoleListByPage } from '/@/api/demo/system';
+  import { getRoleListByPage, deleteRole } from '/@/api/demo/system';
 
   import { useDrawer } from '/@/components/Drawer';
   import RoleDrawer from './RoleDrawer.vue';
 
-  import { columns, searchFormSchema } from './role.data';
+  import { columns, searchFormSchema, setReloadFunc } from './role.data';
+
+  import { useMessage } from '/@/hooks/web/useMessage';
+  import { useI18n } from '/@/hooks/web/useI18n';
+
+  const { createErrorModal } = useMessage();
+  const { t } = useI18n();
 
   export default defineComponent({
     name: 'RoleManagement',
@@ -48,6 +54,7 @@
       const [registerTable, { reload }] = useTable({
         title: '角色列表',
         api: getRoleListByPage,
+        afterFetch: afterFetch,
         columns,
         formConfig: {
           labelWidth: 120,
@@ -66,11 +73,30 @@
         },
       });
 
+      function afterFetch(dataList: any[]) {
+        setReloadFunc(reload);
+        // console.log('1. dataList: ', dataList);
+        // dataList.forEach((data: any) => {
+        //   data.typeDisplay = typeList.filter((a) => a.value === data.type).map((b) => b.label) + '';
+        //   if (
+        //     typeof data.children !== 'undefined' &&
+        //     data.children !== null &&
+        //     data.children.length > 0
+        //   ) {
+        //     afterFetch(data.children);
+        //   }
+        // });
+        // console.log('2. dataList: ', dataList);
+        return dataList;
+      }
+
       function handleCreate() {
         openDrawer(true, {
           isUpdate: false,
         });
       }
+
+      type Recordable<T = any> = Record<string, T>;
 
       function handleEdit(record: Recordable) {
         openDrawer(true, {
@@ -79,8 +105,21 @@
         });
       }
 
-      function handleDelete(record: Recordable) {
+      async function handleDelete(record: Recordable) {
         console.log(record);
+        try {
+          const postData: any = record;
+          await deleteRole(
+            postData,
+            'none', //不要默认的错误提示
+          );
+          reload();
+        } catch (error) {
+          createErrorModal({
+            title: t('sys.api.errorTip'),
+            content: (error as unknown as Error).message || t('sys.api.networkExceptionMsg'),
+          });
+        }
       }
 
       function handleSuccess() {

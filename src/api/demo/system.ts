@@ -11,8 +11,10 @@ import {
   RoleListGetResultModel,
   AdminDept,
   AdminMenu,
+  AdminRole,
 } from './model/systemModel';
 import { defHttp } from '/@/utils/http/axios';
+import { getValue } from '/@/utils/index';
 import { ErrorMessageMode } from '/#/axios';
 
 enum Api {
@@ -24,15 +26,19 @@ enum Api {
   DeptDelete = '/admin_dept/delete?ty=dept',
   DeptList = '/admin_dept/list?ty=dept',
 
-  setRoleStatus = '/system/setRoleStatus',
-
   MenuInsert = '/admin_menu/insert?ty=menu',
   MenuReplace = '/admin_menu/replace?ty=menu',
   MenuDelete = '/admin_menu/delete?ty=menu',
   MenuList = '/admin_menu/list?ty=menu',
 
-  RolePageList = '/system/getRoleListByPage',
-  GetAllRoleList = '/system/getAllRoleList',
+  RoleInsert = '/admin_role/insert?ty=role',
+  RoleReplace = '/admin_role/replace?ty=role',
+  RoleDelete = '/admin_role/delete?ty=role',
+  RolePageList = '/admin_role/page?ty=role',
+
+  SetRoleStatus = '/admin_role/set_status?ty=role',
+  RoleList = '/admin_role/list?ty=role',
+  // GetAllRoleList = '/system/getAllRoleList',
 }
 
 export const getAccountList = (params: AccountParams) =>
@@ -110,14 +116,75 @@ export const deleteMenu = (params: AdminMenu, mode: ErrorMessageMode = 'modal') 
 export const getMenuList = (params?: MenuParams) =>
   defHttp.get<MenuListGetResultModel>({ url: Api.MenuList, params });
 
-export const getRoleListByPage = (params?: RolePageParams) =>
-  defHttp.get<RolePageListGetResultModel>({ url: Api.RolePageList, params });
+export const insertRole = (params: AdminRole, mode: ErrorMessageMode = 'modal') =>
+  defHttp.post<AdminRole>(
+    {
+      url: Api.RoleInsert,
+      params,
+    },
+    {
+      errorMessageMode: mode,
+    },
+  );
+
+export const replaceRole = (params: AdminRole, mode: ErrorMessageMode = 'modal') =>
+  defHttp.post<AdminRole>(
+    {
+      url: Api.RoleReplace,
+      params,
+    },
+    {
+      errorMessageMode: mode,
+    },
+  );
+
+export const deleteRole = (params: AdminRole, mode: ErrorMessageMode = 'modal') =>
+  defHttp.post<AdminRole>(
+    {
+      url: Api.RoleDelete,
+      params,
+    },
+    {
+      errorMessageMode: mode,
+    },
+  );
+
+export const getRoleListByPage = (params?: RolePageParams) => {
+  const size: number = getValue(params?.pageSize, 10);
+  const offset: number = (getValue(params?.page, 1) - 1) * size;
+  const data: any = {
+    offset: offset,
+    size: size,
+  };
+  const roleName = getValue(params?.roleName, '');
+  if (roleName !== '') {
+    data.keyword = roleName;
+    data.keywordFields = ['roleName'];
+  }
+  const status = getValue(params?.status, -1);
+  if (status !== -1) {
+    data.filter = {
+      status: status,
+    };
+  }
+  return defHttp.post<RolePageListGetResultModel>(
+    { url: Api.RolePageList, data },
+    {
+      errorMessageMode: 'modal',
+    },
+  );
+};
 
 export const getAllRoleList = (params?: RoleParams) =>
-  defHttp.get<RoleListGetResultModel>({ url: Api.GetAllRoleList, params });
+  defHttp.get<RoleListGetResultModel>({ url: Api.RoleList, params });
 
-export const setRoleStatus = (id: number, status: string) =>
-  defHttp.post({ url: Api.setRoleStatus, params: { id, status } });
+export const setRoleStatus = (dbId: string, status: number) =>
+  defHttp.post(
+    { url: Api.SetRoleStatus, data: { dbId, status } },
+    {
+      errorMessageMode: 'modal',
+    },
+  );
 
 export const isAccountExist = (account: string) =>
   defHttp.post({ url: Api.IsAccountExist, params: { account } }, { errorMessageMode: 'none' });

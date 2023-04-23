@@ -113,6 +113,20 @@ export interface AdminMenu {
   components?: { [key: string]: any };
 }
 
+export interface AdminRole {
+  dbId: string;
+  ctime: number;
+  mtime: number;
+  status: number;
+  id: string;
+  orderNo: number;
+  createTime: string;
+  roleName: string;
+  roleValue: string;
+  menu: string[];
+  remark: string;
+}
+
 export interface DeptListItem {
   id: string;
   orderNo: string;

@@ -29,7 +29,7 @@ const roleList = (() => {
       createTime: '@datetime',
       remark: '@cword(10,20)',
       menu: [['0', '1', '2'], ['0', '1'], ['0', '2'], ['2']][index],
-      'status|1': ['0', '1'],
+      'status|1': [0, 1],
     });
   }
   return result;
@@ -144,24 +144,24 @@ export default [
       return resultPageSuccess(page, pageSize, accountList);
     },
   },
-  {
-    url: '/web-api/system/getRoleListByPage',
-    timeout: 100,
-    method: 'get',
-    response: ({ query }) => {
-      const { page = 1, pageSize = 20 } = query;
-      return resultPageSuccess(page, pageSize, roleList);
-    },
-  },
-  {
-    url: '/web-api/system/setRoleStatus',
-    timeout: 500,
-    method: 'post',
-    response: ({ query }) => {
-      const { id, status } = query;
-      return resultSuccess({ id, status });
-    },
-  },
+  // {
+  //   url: '/web-api/admin_role/page',
+  //   timeout: 100,
+  //   method: 'post',
+  //   response: ({ body }) => {
+  //     const { page = 1, pageSize = 20 } = body;
+  //     return resultPageSuccess(page, pageSize, roleList);
+  //   },
+  // },
+  // {
+  //   url: '/web-api/admin_role/set_status',
+  //   timeout: 500,
+  //   method: 'post',
+  //   response: ({ query }) => {
+  //     const { id, status } = query;
+  //     return resultSuccess({ id, status });
+  //   },
+  // },
   {
     url: '/web-api/system/getAllRoleList',
     timeout: 100,

@@ -28,7 +28,12 @@
   import { BasicDrawer, useDrawerInner } from '/@/components/Drawer';
   import { BasicTree, TreeItem } from '/@/components/Tree';
 
-  import { getMenuList } from '/@/api/demo/system';
+  import { insertRole, replaceRole, getMenuList } from '/@/api/demo/system';
+  import { useMessage } from '/@/hooks/web/useMessage';
+  import { useI18n } from '/@/hooks/web/useI18n';
+
+  const { notification, createErrorModal } = useMessage();
+  const { t } = useI18n();
 
   export default defineComponent({
     name: 'RoleDrawer',
@@ -36,7 +41,8 @@
     emits: ['success', 'register'],
     setup(_, { emit }) {
       const isUpdate = ref(true);
-      const treeData = ref<TreeItem[]>([]);
+      const treeData: any = ref<TreeItem[]>([]);
+      let record: any = {};
 
       const [registerForm, { resetFields, setFieldsValue, validate }] = useForm({
         labelWidth: 90,
@@ -55,6 +61,7 @@
         isUpdate.value = !!data?.isUpdate;
 
         if (unref(isUpdate)) {
+          record = data.record;
           setFieldsValue({
             ...data.record,
           });
@@ -68,9 +75,64 @@
           const values = await validate();
           setDrawerProps({ confirmLoading: true });
           // TODO custom api
+
+          let apiFunc = insertRole;
+          let postData: any = {};
+          if (unref(isUpdate)) {
+            apiFunc = replaceRole;
+            record.id = values.id;
+            record.roleName = values.roleName;
+            record.roleValue = values.roleValue;
+            record.orderNo = values.orderNo;
+            record.menu = values.menu;
+            record.status = values.status;
+            record.remark = values.remark;
+            postData = JSON.parse(JSON.stringify(record));
+            // postData.children = [];
+          } else {
+            postData = JSON.parse(JSON.stringify(values));
+          }
+
+          // check menu data exist
+          if (typeof postData.menu === 'undefined' || postData.menu === null) {
+            postData.menu = [];
+          }
+
+          // check checked tree data
+          if (typeof postData.menu.checked !== 'undefined') {
+            const checked = JSON.parse(JSON.stringify(postData.menu.checked));
+            postData.menu = checked;
+          }
+
+          const adminRole = await apiFunc(
+            postData,
+            'none', //不要默认的错误提示
+          );
           console.log(values);
+          if (adminRole) {
+            notification.success({
+              message: t('sys.api.successTip'),
+              description: `${t('sys.api.operationSuccess')}: ${adminRole.roleName}`,
+              duration: 3,
+            });
+          }
           closeDrawer();
           emit('success');
+        } catch (error) {
+          if (typeof error.errorFields !== 'undefined') {
+            // 表单验证 不需要对话框提示
+            // createErrorModal({
+            //   title: t('sys.api.errorTip'),
+            //   // content: (error as unknown as Error).message || t('sys.api.networkExceptionMsg'),
+            //   content:
+            //     error.errorFields[0].errors.toLocaleString() || t('sys.api.networkExceptionMsg'),
+            // });
+          } else {
+            createErrorModal({
+              title: t('sys.api.errorTip'),
+              content: (error as unknown as Error).message || t('sys.api.networkExceptionMsg'),
+            });
+          }
         } finally {
           setDrawerProps({ confirmLoading: false });
         }
