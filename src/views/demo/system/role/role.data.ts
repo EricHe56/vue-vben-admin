@@ -14,21 +14,25 @@ export const columns: BasicColumn[] = [
   {
     title: '角色名称',
     dataIndex: 'roleName',
+    sorter: true,
     width: 200,
   },
   {
     title: '角色值',
     dataIndex: 'roleValue',
+    sorter: true,
     width: 180,
   },
   {
     title: '排序',
     dataIndex: 'orderNo',
-    width: 50,
+    sorter: true,
+    width: 100,
   },
   {
     title: '状态',
     dataIndex: 'status',
+    sorter: true,
     width: 120,
     customRender: (tbl) => {
       console.log(tbl);
@@ -65,6 +69,7 @@ export const columns: BasicColumn[] = [
   {
     title: '创建时间',
     dataIndex: 'createTime',
+    sorter: true,
     width: 180,
   },
   {

@@ -156,6 +156,12 @@ export const getRoleListByPage = (params?: RolePageParams) => {
     offset: offset,
     size: size,
   };
+  const sortField = getValue(params?.field, '');
+  const sortOrder = getValue(params?.order, '');
+  if (sortField !== '' && sortOrder !== '') {
+    const sortItem = (sortOrder === 'ascend' ? '+' : '-') + sortField;
+    data.sort = [sortItem];
+  }
   const roleName = getValue(params?.roleName, '');
   if (roleName !== '') {
     data.keyword = roleName;
