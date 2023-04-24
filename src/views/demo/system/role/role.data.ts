@@ -34,6 +34,10 @@ export const columns: BasicColumn[] = [
     dataIndex: 'status',
     sorter: true,
     width: 120,
+    filters: [
+      { text: 'On', value: 1 },
+      { text: 'Off', value: 0 },
+    ],
     customRender: (tbl) => {
       console.log(tbl);
       const { record } = tbl;
@@ -85,18 +89,18 @@ export const searchFormSchema: FormSchema[] = [
     component: 'Input',
     colProps: { span: 8 },
   },
-  {
-    field: 'status',
-    label: '状态',
-    component: 'Select',
-    componentProps: {
-      options: [
-        { label: '启用', value: 1 },
-        { label: '停用', value: 0 },
-      ],
-    },
-    colProps: { span: 8 },
-  },
+  // {
+  //   field: 'status',
+  //   label: '状态',
+  //   component: 'Select',
+  //   componentProps: {
+  //     options: [
+  //       { label: '启用', value: 1 },
+  //       { label: '停用', value: 0 },
+  //     ],
+  //   },
+  //   colProps: { span: 8 },
+  // },
 ];
 
 export const formSchema: FormSchema[] = [

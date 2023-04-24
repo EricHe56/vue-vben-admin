@@ -417,7 +417,7 @@ export interface BasicColumn extends ColumnProps<Recordable> {
   children?: BasicColumn[];
   filters?: {
     text: string;
-    value: string;
+    value: any;
     children?:
       | unknown[]
       | (((props: Record<string, unknown>) => unknown[]) & (() => unknown[]) & (() => unknown[]));

@@ -150,28 +150,32 @@ export const deleteRole = (params: AdminRole, mode: ErrorMessageMode = 'modal') 
   );
 
 export const getRoleListByPage = (params?: RolePageParams) => {
+  // page
   const size: number = getValue(params?.pageSize, 10);
   const offset: number = (getValue(params?.page, 1) - 1) * size;
   const data: any = {
     offset: offset,
     size: size,
   };
+  // sort
   const sortField = getValue(params?.field, '');
   const sortOrder = getValue(params?.order, '');
   if (sortField !== '' && sortOrder !== '') {
     const sortItem = (sortOrder === 'ascend' ? '+' : '-') + sortField;
     data.sort = [sortItem];
   }
-  const roleName = getValue(params?.roleName, '');
-  if (roleName !== '') {
-    data.keyword = roleName;
-    data.keywordFields = ['roleName'];
-  }
+  // filter
   const status = getValue(params?.status, -1);
   if (status !== -1) {
     data.filter = {
       status: status,
     };
+  }
+  // keyword
+  const roleName = getValue(params?.roleName, '');
+  if (roleName !== '') {
+    data.keyword = roleName;
+    data.keywordFields = ['roleName'];
   }
   return defHttp.post<RolePageListGetResultModel>(
     { url: Api.RolePageList, data },
