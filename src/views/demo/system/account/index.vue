@@ -41,26 +41,35 @@
   import { defineComponent, reactive } from 'vue';
 
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
-  import { getAccountList } from '/@/api/demo/system';
+  import { getAccountList, getAllRoleList, deleteAccount } from '/@/api/demo/system';
   import { PageWrapper } from '/@/components/Page';
-  import DeptTree from './DeptTree.vue';
+  import { default as DeptTree, getDeptTreeData } from './DeptTree.vue';
 
   import { useModal } from '/@/components/Modal';
-  import AccountModal from './AccountModal.vue';
+  import { default as AccountModal, setAccountModalRoleList } from './AccountModal.vue';
 
-  import { columns, searchFormSchema } from './account.data';
+  import { columns, searchFormSchema, setAccountFormSchemaRoleList } from './account.data';
   import { useGo } from '/@/hooks/web/usePage';
+
+  import { useMessage } from '/@/hooks/web/useMessage';
+  import { useI18n } from '/@/hooks/web/useI18n';
+
+  const { createErrorModal } = useMessage();
+  const { t } = useI18n();
 
   export default defineComponent({
     name: 'AccountManagement',
     components: { BasicTable, PageWrapper, DeptTree, AccountModal, TableAction },
     setup() {
+      type Recordable<T = any> = Record<string, T>;
+
       const go = useGo();
       const [registerModal, { openModal }] = useModal();
       const searchInfo = reactive<Recordable>({});
-      const [registerTable, { reload, updateTableDataRecord }] = useTable({
+      const [registerTable, { reload /*updateTableDataRecord*/ }] = useTable({
         title: '账号列表',
         api: getAccountList,
+        afterFetch: afterFetch,
         rowKey: 'id',
         columns,
         formConfig: {
@@ -83,6 +92,54 @@
         },
       });
 
+      function findDept(id, deptList: any[]) {
+        for (let i = 0; i < deptList.length; i++) {
+          const dept = deptList[i];
+          if (dept.id === id) {
+            return dept;
+          }
+        }
+        return null;
+      }
+
+      async function afterFetch(dataList: any[]) {
+        // console.log('1. dataList: ', dataList);
+        const deptTreeData = getDeptTreeData();
+        dataList.forEach((admin: any) => {
+          admin.roleValues = admin.roles.map((a) => a.value);
+          admin.deptDisplay = '';
+
+          const ids = admin.dept.split('-');
+          let curId = '';
+          let curDeptList = deptTreeData;
+          for (let i = 0; i < ids.length; i++) {
+            curId += i !== 0 ? '-' + ids[i] : ids[i];
+            const dept = findDept(curId, curDeptList);
+            if (dept !== null) {
+              admin.deptDisplay += i === 0 ? '' : '-';
+              admin.deptDisplay += dept.deptName;
+              curDeptList = dept.children;
+            } else {
+              break;
+            }
+          }
+        });
+        // console.log('2. dataList: ', dataList);
+        await getRoleList();
+        return dataList;
+      }
+
+      let roleList: any[] = [];
+      async function getRoleList() {
+        const apiList: any[] = await getAllRoleList();
+        if (apiList !== null) {
+          roleList = apiList;
+        }
+        setAccountFormSchemaRoleList(roleList);
+        setAccountModalRoleList(roleList);
+        return;
+      }
+
       function handleCreate() {
         openModal(true, {
           isUpdate: false,
@@ -97,20 +154,36 @@
         });
       }
 
-      function handleDelete(record: Recordable) {
+      async function handleDelete(record: Recordable) {
         console.log(record);
-      }
-
-      function handleSuccess({ isUpdate, values }) {
-        if (isUpdate) {
-          // 演示不刷新表格直接更新内部数据。
-          // 注意：updateTableDataRecord要求表格的rowKey属性为string并且存在于每一行的record的keys中
-          const result = updateTableDataRecord(values.id, values);
-          console.log(result);
-        } else {
+        try {
+          const postData: any = record;
+          await deleteAccount(
+            postData,
+            'none', //不要默认的错误提示
+          );
           reload();
+        } catch (error) {
+          createErrorModal({
+            title: t('sys.api.errorTip'),
+            content: (error as unknown as Error).message || t('sys.api.networkExceptionMsg'),
+          });
         }
       }
+
+      function handleSuccess() {
+        reload();
+      }
+      // function handleSuccess({ isUpdate, values }) {
+      //   if (isUpdate) {
+      //     // 演示不刷新表格直接更新内部数据。
+      //     // 注意：updateTableDataRecord要求表格的rowKey属性为string并且存在于每一行的record的keys中
+      //     const result = updateTableDataRecord(values.id, values);
+      //     console.log(result);
+      //   } else {
+      //     reload();
+      //   }
+      // }
 
       function handleSelect(deptId = '') {
         searchInfo.deptId = deptId;

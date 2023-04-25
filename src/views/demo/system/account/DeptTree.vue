@@ -18,16 +18,20 @@
   import { BasicTree, TreeItem } from '/@/components/Tree';
   import { getDeptList } from '/@/api/demo/system';
 
+  let deptTreeData: any[] = [];
+
+  export const getDeptTreeData = () => deptTreeData;
+
   export default defineComponent({
     name: 'DeptTree',
     components: { BasicTree },
-
     emits: ['select'],
     setup(_, { emit }) {
-      const treeData = ref<TreeItem[]>([]);
+      const treeData: any = ref<TreeItem[]>([]);
 
       async function fetch() {
         treeData.value = (await getDeptList()) as unknown as TreeItem[];
+        deptTreeData = treeData.value;
       }
 
       function handleSelect(keys) {

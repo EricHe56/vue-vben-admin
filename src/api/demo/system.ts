@@ -12,14 +12,18 @@ import {
   AdminDept,
   AdminMenu,
   AdminRole,
+  AdminAccount,
 } from './model/systemModel';
 import { defHttp } from '/@/utils/http/axios';
 import { getValue } from '/@/utils/index';
 import { ErrorMessageMode } from '/#/axios';
 
 enum Api {
-  AccountList = '/system/getAccountList',
-  IsAccountExist = '/system/accountExist',
+  AccountInsert = '/admin/insert?ty=admin',
+  AccountReplace = '/admin/replace?ty=admin',
+  AccountDelete = '/admin/delete?ty=admin',
+  AccountList = '/admin/page?ty=admin',
+  IsAccountExist = '/admin/exist?ty=admin',
 
   DeptInsert = '/admin_dept/insert?ty=dept',
   DeptReplace = '/admin_dept/replace?ty=dept',
@@ -41,8 +45,77 @@ enum Api {
   // GetAllRoleList = '/system/getAllRoleList',
 }
 
-export const getAccountList = (params: AccountParams) =>
-  defHttp.get<AccountListGetResultModel>({ url: Api.AccountList, params });
+export const insertAccount = (params: AdminAccount, mode: ErrorMessageMode = 'modal') =>
+  defHttp.post<AdminAccount>(
+    {
+      url: Api.AccountInsert,
+      params,
+    },
+    {
+      errorMessageMode: mode,
+    },
+  );
+
+export const replaceAccount = (params: AdminAccount, mode: ErrorMessageMode = 'modal') =>
+  defHttp.post<AdminAccount>(
+    {
+      url: Api.AccountReplace,
+      params,
+    },
+    {
+      errorMessageMode: mode,
+    },
+  );
+
+export const deleteAccount = (params: AdminAccount, mode: ErrorMessageMode = 'modal') =>
+  defHttp.post<AdminAccount>(
+    {
+      url: Api.AccountDelete,
+      params,
+    },
+    {
+      errorMessageMode: mode,
+    },
+  );
+
+export const getAccountList = (params: AccountParams) => {
+  // page
+  const size: number = getValue(params?.pageSize, 10);
+  const offset: number = (getValue(params?.page, 1) - 1) * size;
+  const data: any = {
+    offset: offset,
+    size: size,
+    filter: {},
+  };
+  // sort
+  const sortField = getValue(params?.field, '').replace('Display', '');
+  const sortOrder = getValue(params?.order, '');
+  if (sortField !== '' && sortOrder !== '') {
+    const sortItem = (sortOrder === 'ascend' ? '+' : '-') + sortField;
+    data.sort = [sortItem];
+  }
+  // filter
+  const status = getValue(params?.status, -1);
+  if (status !== -1) {
+    data.filter.status = status;
+  }
+  const deptId = getValue(params?.deptId, '');
+  if (deptId !== '') {
+    data.filter.dept = { $regex: '^' + deptId + '.*' };
+  }
+  // keyword
+  const roleName = getValue(params?.username, '');
+  if (roleName !== '') {
+    data.keyword = roleName;
+    data.keywordFields = ['username'];
+  }
+  return defHttp.post<AccountListGetResultModel>(
+    { url: Api.AccountList, data },
+    {
+      errorMessageMode: 'modal',
+    },
+  );
+};
 
 export const insertDept = (params: AdminDept, mode: ErrorMessageMode = 'modal') =>
   defHttp.post<AdminDept>(
