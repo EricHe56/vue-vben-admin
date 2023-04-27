@@ -73,7 +73,7 @@
     components: { Alert, PageWrapper, CurrentPermissionMode, Divider, Authority },
     setup() {
       const { hasPermission } = usePermission();
-      const permissionStore = usePermissionStore();
+      const permissionStore: any = usePermissionStore();
       const appStore = useAppStore();
       const userStore = useUserStore();
 
