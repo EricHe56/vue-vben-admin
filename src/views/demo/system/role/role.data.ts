@@ -151,12 +151,8 @@ export const formSchema: FormSchema[] = [
     field: 'menu',
     slot: 'menu',
     component: 'TreeSelect',
-    componentProps: {
-      autoExpandParent: true,
-      defaultExpandAll: true,
-    },
     ifShow: ({ values }) => {
-      return typeof values.menu !== 'undefined' || values.menu !== null;
+      return typeof values.menu !== 'undefined' && values.menu !== null;
     },
   },
 ];

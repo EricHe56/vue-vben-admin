@@ -57,7 +57,7 @@ export const columns: BasicColumn[] = [
   },
 ];
 
-const isDir = (type: string) => type === '0';
+// const isDir = (type: string) => type === '0';
 const isMenu = (type: string) => type === '1';
 const isButton = (type: string) => type === '2';
 
@@ -177,7 +177,8 @@ export const formSchema: FormSchema[] = [
     field: 'permission',
     label: '权限标识',
     component: 'Input',
-    ifShow: ({ values }) => !isDir(values.type),
+    required: true,
+    ifShow: ({ values }) => isButton(values.type),
   },
   {
     field: 'status',

@@ -14,7 +14,9 @@
           :treeData="treeData"
           :fieldNames="{ title: 'menuName', key: 'id' }"
           checkable
-          toolbar
+          :toolbar="false"
+          :defaultExpandAll="true"
+          :checkStrictly="true"
           title="菜单分配"
         />
       </template>
