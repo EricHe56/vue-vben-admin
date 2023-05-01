@@ -30,6 +30,7 @@
   </div>
 </template>
 <script lang="ts">
+  import { type Recordable } from '@vben/types';
   import { defineComponent } from 'vue';
 
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
@@ -96,16 +97,14 @@
         });
       }
 
-      type Recordable<T = any> = Record<string, T>;
-
-      function handleEdit(record: Recordable) {
+      function handleEdit(record: Recordable<any>) {
         openDrawer(true, {
           record,
           isUpdate: true,
         });
       }
 
-      async function handleDelete(record: Recordable) {
+      async function handleDelete(record: Recordable<any>) {
         console.log(record);
         try {
           const postData: any = record;

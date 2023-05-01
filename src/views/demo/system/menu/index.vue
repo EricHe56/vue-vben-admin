@@ -30,6 +30,7 @@
   </div>
 </template>
 <script lang="ts">
+  import { type Recordable } from '@vben/types';
   import { defineComponent, nextTick } from 'vue';
 
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
@@ -148,10 +149,8 @@
         });
       }
 
-      type Recordable<T = any> = Record<string, T>;
-
-      function handleEdit(recordRaw: Recordable) {
-        const record: Recordable = JSON.parse(JSON.stringify(recordRaw));
+      function handleEdit(recordRaw: Recordable<any>) {
+        const record: Recordable<any> = JSON.parse(JSON.stringify(recordRaw));
         if (typeof record.meta === 'undefined') {
           record.meta = {
             orderNo: 1,
@@ -186,7 +185,7 @@
         });
       }
 
-      async function handleDelete(record: Recordable) {
+      async function handleDelete(record: Recordable<any>) {
         console.log(record);
         try {
           const postData: any = record;
