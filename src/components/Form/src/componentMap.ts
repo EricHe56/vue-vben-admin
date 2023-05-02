@@ -23,6 +23,7 @@ import {
 
 import ApiRadioGroup from './components/ApiRadioGroup.vue';
 import MenuMeta from './components/MenuMeta.vue';
+import SingleImageUpload from './components/SingleImageUpload.vue';
 import RadioButtonGroup from './components/RadioButtonGroup.vue';
 import ApiSelect from './components/ApiSelect.vue';
 import ApiTree from './components/ApiTree.vue';
@@ -71,6 +72,7 @@ componentMap.set('StrengthMeter', StrengthMeter);
 componentMap.set('IconPicker', IconPicker);
 componentMap.set('InputCountDown', CountdownInput);
 
+componentMap.set('SingleImageUpload', SingleImageUpload);
 componentMap.set('Upload', BasicUpload);
 componentMap.set('Divider', Divider);
 
