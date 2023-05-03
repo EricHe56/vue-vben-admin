@@ -193,6 +193,9 @@ export const accountFormSchema: FormSchema[] = [
     field: 'avatar',
     label: '头像',
     component: 'SingleImageUpload',
+    componentProps: {
+      type: 'cos',
+    },
     required: false,
   },
   {

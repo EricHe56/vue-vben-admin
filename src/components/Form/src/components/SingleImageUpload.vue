@@ -20,10 +20,10 @@
 </template>
 <script lang="ts">
   import {
-    uploadFile,
+    uploadFile as cosUploadFile,
     // deleteFile
   } from '@/api/upload/upload-cos';
-  // import { uploadFile } from '@/api/upload-oss'
+  import { uploadFile as ossUploadFile } from '@/api/upload/upload-oss';
 
   import { defineComponent, ref } from 'vue';
   import { useRuleFormItem } from '/@/hooks/component/useFormItem';
@@ -49,6 +49,10 @@
       value: {
         type: String,
         default: '',
+      },
+      type: {
+        type: String,
+        default: 'oss',
       },
     },
     emits: ['change', 'update:value'],
@@ -113,7 +117,8 @@
           message.error('未选择上传文件');
           return;
         }
-        uploadFile(
+        const uploadFileApi = props.type === 'oss' ? ossUploadFile : cosUploadFile;
+        uploadFileApi(
           file,
           (err, data) => {
             console.log('upload:', err || data);
