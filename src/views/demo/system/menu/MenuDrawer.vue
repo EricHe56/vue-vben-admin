@@ -122,6 +122,9 @@
             values.meta.icon = values.icon;
           }
 
+          // update props by string
+          values.props = JSON.parse(values.propsInString);
+
           let apiFunc = insertMenu;
           let postData: any = {};
           if (unref(isUpdate)) {
@@ -145,6 +148,8 @@
             if (hasMeta) {
               record.meta = values.meta;
             }
+            record.props = values.props;
+            record.propsInString = values.propsInString;
 
             postData = JSON.parse(JSON.stringify(record));
             postData.children = [];

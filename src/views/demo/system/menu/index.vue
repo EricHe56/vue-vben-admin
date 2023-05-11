@@ -110,13 +110,27 @@
             name: '',
             routePath: '',
             path: '',
+            // paramPath: '',
+            // fullPath: '',
             redirect: '',
             component: '',
             permission: '',
             isExt: false,
             keepalive: false,
             show: false,
+            // disabled: false,
+            // children: [],
             orderNo: 1,
+            // roles: [],
+            // tag: {},
+            // hideMenu: false,
+            props: {},
+            propsInString: '{}',
+            // instances: {},
+            // leaveGuards: {},
+            // updateGuards: {},
+            // enterCallbacks: {},
+            // components: {},
             icon: '',
             parentMenu: '',
             status: 0,
@@ -179,6 +193,11 @@
         } else {
           record.meta.validated = true;
         }
+        // default props
+        if (typeof record.props === 'undefined' || record.props === null) {
+          record.props = {};
+        }
+        record.propsInString = JSON.stringify(record.props);
         openDrawer(true, {
           record,
           isUpdate: true,

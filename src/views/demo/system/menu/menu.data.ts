@@ -174,6 +174,12 @@ export const formSchema: FormSchema[] = [
     ifShow: ({ values }) => isMenu(values.type),
   },
   {
+    field: 'propsInString',
+    label: 'Vue props',
+    component: 'Input',
+    ifShow: ({ values }) => isMenu(values.type),
+  },
+  {
     field: 'permission',
     label: '权限标识',
     component: 'Input',
@@ -219,7 +225,6 @@ export const formSchema: FormSchema[] = [
     },
     ifShow: ({ values }) => isMenu(values.type),
   },
-
   {
     field: 'show',
     label: '是否显示',
