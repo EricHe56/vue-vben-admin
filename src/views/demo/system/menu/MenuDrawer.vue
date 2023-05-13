@@ -123,6 +123,9 @@
           }
 
           // update props by string
+          if (typeof values.propsInString === 'undefined' || values.propsInString === null) {
+            values.propsInString = '{}';
+          }
           values.props = JSON.parse(values.propsInString);
 
           let apiFunc = insertMenu;
