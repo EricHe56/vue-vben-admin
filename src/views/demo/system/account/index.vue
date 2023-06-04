@@ -191,7 +191,7 @@
       }
 
       function handleView(record: Recordable) {
-        go('/system/account_detail/' + record.id);
+        go('/system/account_detail/' + record.dbId);
       }
 
       return {

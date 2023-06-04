@@ -117,6 +117,17 @@ export const getAccountList = (params: AccountParams) => {
   );
 };
 
+export const isAccountExist = (data: AdminAccount, mode: ErrorMessageMode = 'modal') =>
+  defHttp.post<AdminAccount>(
+    {
+      url: Api.IsAccountExist,
+      data,
+    },
+    {
+      errorMessageMode: mode,
+    },
+  );
+
 export const insertDept = (params: AdminDept, mode: ErrorMessageMode = 'modal') =>
   defHttp.post<AdminDept>(
     {
@@ -268,6 +279,3 @@ export const setRoleStatus = (dbId: string, status: number) =>
       errorMessageMode: 'modal',
     },
   );
-
-export const isAccountExist = (account: string) =>
-  defHttp.post({ url: Api.IsAccountExist, params: { account } }, { errorMessageMode: 'none' });
