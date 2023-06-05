@@ -2,6 +2,7 @@ export default {
   footer: { onlinePreview: '在线预览', onlineDocument: '在线文档' },
   header: {
     // user dropdown
+    dropdownItemChangePassword: '修改密码',
     dropdownItemDoc: '文档',
     dropdownItemLoginOut: '退出系统',
 

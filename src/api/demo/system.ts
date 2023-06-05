@@ -24,6 +24,7 @@ enum Api {
   AccountDelete = '/admin/delete?ty=admin',
   AccountList = '/admin/page?ty=admin',
   IsAccountExist = '/admin/exist?ty=admin',
+  AccountResetPassword = '/admin/reset_password?ty=admin',
 
   DeptInsert = '/admin_dept/insert?ty=dept',
   DeptReplace = '/admin_dept/replace?ty=dept',
@@ -121,6 +122,24 @@ export const isAccountExist = (data: AdminAccount, mode: ErrorMessageMode = 'mod
   defHttp.post<AdminAccount>(
     {
       url: Api.IsAccountExist,
+      data,
+    },
+    {
+      errorMessageMode: mode,
+    },
+  );
+
+export const resetAccountPassword = (
+  data: {
+    dbId: string;
+    oldPwd: string;
+    newPwd: string;
+  },
+  mode: ErrorMessageMode = 'modal',
+) =>
+  defHttp.post<AdminAccount>(
+    {
+      url: Api.AccountResetPassword,
       data,
     },
     {

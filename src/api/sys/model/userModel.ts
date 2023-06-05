@@ -35,4 +35,6 @@ export interface GetUserInfoModel {
   avatar: string;
   // 介绍
   desc?: string;
+  homePath?: string;
+  dbId: string;
 }

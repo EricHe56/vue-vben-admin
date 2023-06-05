@@ -6,8 +6,8 @@
     @back="goBack"
   >
     <template #extra>
-      <a-button type="primary" danger> 禁用账号 </a-button>
-      <a-button type="primary"> 修改密码 </a-button>
+      <a-button v-if="false" type="primary" danger> 禁用账号 </a-button>
+      <a-button v-if="false" type="primary" @click="goChangePassword"> 修改密码 </a-button>
     </template>
     <template #footer>
       <a-tabs default-active-key="detail" v-model:activeKey="currentKey">
@@ -77,7 +77,19 @@
         go('/system/account');
       }
 
-      return { userDBId, accInfo, headerImg, currentKey, goBack, isDetailsLoaded };
+      function goChangePassword() {
+        go('/system/changePassword');
+      }
+
+      return {
+        userDBId,
+        accInfo,
+        isDetailsLoaded,
+        headerImg,
+        currentKey,
+        goBack,
+        goChangePassword,
+      };
     },
   });
 </script>

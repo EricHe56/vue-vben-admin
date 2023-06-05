@@ -15,7 +15,12 @@
           key="doc"
           :text="t('layout.header.dropdownItemDoc')"
           icon="ion:document-text-outline"
-          v-if="getShowDoc"
+          v-if="getShowDoc && false"
+        />
+        <MenuItem
+          key="changePassword"
+          :text="t('layout.header.dropdownItemChangePassword')"
+          icon="solar:password-linear"
         />
         <MenuDivider v-if="getShowDoc" />
         <MenuItem
@@ -54,8 +59,9 @@
   import { openWindow } from '/@/utils';
 
   import { createAsyncComponent } from '/@/utils/factory/createAsyncComponent';
+  import { useGo } from '/@/hooks/web/usePage';
 
-  type MenuEvent = 'logout' | 'doc' | 'lock';
+  type MenuEvent = 'logout' | 'doc' | 'lock' | 'changePassword';
 
   export default defineComponent({
     name: 'UserDropdown',
@@ -74,6 +80,7 @@
       const { t } = useI18n();
       const { getShowDoc, getUseLockPage } = useHeaderSetting();
       const userStore = useUserStore();
+      const go = useGo();
 
       const getUserInfo = computed(() => {
         const { realName = '', avatar, desc } = userStore.getUserInfo || {};
@@ -96,6 +103,10 @@
         openWindow(DOC_URL);
       }
 
+      function goChangePassword() {
+        go('/system/changePassword');
+      }
+
       function handleMenuClick(e: MenuInfo) {
         switch (e.key as MenuEvent) {
           case 'logout':
@@ -106,6 +117,9 @@
             break;
           case 'lock':
             handleLock();
+            break;
+          case 'changePassword':
+            goChangePassword();
             break;
         }
       }

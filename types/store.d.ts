@@ -31,6 +31,7 @@ export interface ErrorLogInfo {
 }
 
 export interface UserInfo {
+  dbId: string;
   userId: string | number;
   username: string;
   realName: string;

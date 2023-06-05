@@ -10,11 +10,14 @@
   </PageWrapper>
 </template>
 <script lang="ts">
-  import { defineComponent } from 'vue';
+  import { defineComponent, computed } from 'vue';
+  // import { useRouter } from 'vue-router';
   import { PageWrapper } from '/@/components/Page';
   import { BasicForm, useForm } from '/@/components/Form';
-
   import { formSchema } from './pwd.data';
+  import { useUserStore } from '/@/store/modules/user';
+  import { resetAccountPassword } from '/@/api/demo/system';
+
   export default defineComponent({
     name: 'ChangePassword',
     components: { BasicForm, PageWrapper },
@@ -27,16 +30,27 @@
         schemas: formSchema,
       });
 
+      const userStore = useUserStore();
+      const userinfo = computed(() => userStore.getUserInfo);
+
       async function handleSubmit() {
         try {
           const values = await validate();
           const { passwordOld, passwordNew } = values;
 
           // TODO custom api
-          console.log(passwordOld, passwordNew);
+          const curAdmin = await resetAccountPassword({
+            dbId: userinfo.value.dbId,
+            oldPwd: passwordOld,
+            newPwd: passwordNew,
+          });
+          console.log(curAdmin);
+          userStore.logout();
           // const { router } = useRouter();
           // router.push(pageEnum.BASE_LOGIN);
-        } catch (error) {}
+        } catch (error) {
+          console.log(error);
+        }
       }
 
       return { register, resetFields, handleSubmit };
