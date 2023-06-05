@@ -17,7 +17,10 @@ export const formSchema: FormSchema[] = [
     rules: [
       {
         required: true,
-        message: '请输入新密码',
+        // min: 6,
+        // max: 16,
+        pattern: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{10,16}$/gm,
+        message: '请输入新密码，长度10-16位，需要包含数字、大小写字母及特殊符号@$!%*#?&',
       },
     ],
   },
