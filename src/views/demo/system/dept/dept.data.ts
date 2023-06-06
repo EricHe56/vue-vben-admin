@@ -6,18 +6,18 @@ export const columns: BasicColumn[] = [
   {
     title: '部门名称',
     dataIndex: 'deptName',
-    width: 180,
+    width: 380,
     align: 'left',
   },
   {
     title: '排序',
     dataIndex: 'orderNo',
-    width: 50,
+    width: 100,
   },
   {
     title: '状态',
     dataIndex: 'status',
-    width: 80,
+    width: 180,
     customRender: ({ record }) => {
       const status = record.status;
       const enable = ~~status === 1;
