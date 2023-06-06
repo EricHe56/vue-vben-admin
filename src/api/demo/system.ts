@@ -4,15 +4,18 @@ import {
   MenuParams,
   RoleParams,
   RolePageParams,
+  LogPageParams,
   MenuListGetResultModel,
   DeptListGetResultModel,
   AccountListGetResultModel,
   RolePageListGetResultModel,
+  LogPageListGetResultModel,
   RoleListGetResultModel,
   AdminDept,
   AdminMenu,
   AdminRole,
   AdminAccount,
+  // ActionLog,
 } from './model/systemModel';
 import { defHttp } from '/@/utils/http/axios';
 import { getValue } from '/@/utils/index';
@@ -44,6 +47,8 @@ enum Api {
   SetRoleStatus = '/admin_role/set_status?ty=role',
   RoleList = '/admin_role/list?ty=role',
   // GetAllRoleList = '/system/getAllRoleList',
+
+  LogPageList = '/action_log/page?ty=log',
 }
 
 export const insertAccount = (params: AdminAccount, mode: ErrorMessageMode = 'modal') =>
@@ -298,3 +303,44 @@ export const setRoleStatus = (dbId: string, status: number) =>
       errorMessageMode: 'modal',
     },
   );
+
+export const getLogListByPage = (params?: LogPageParams) => {
+  // page
+  const size: number = getValue(params?.pageSize, 10);
+  const offset: number = (getValue(params?.page, 1) - 1) * size;
+  const data: any = {
+    offset: offset,
+    size: size,
+  };
+  // sort
+  const sortField = getValue(params?.field, '');
+  const sortOrder = getValue(params?.order, '');
+  if (sortField !== '' && sortOrder !== '') {
+    const sortItem = (sortOrder === 'ascend' ? '+' : '-') + sortField;
+    data.sort = [sortItem];
+  } else {
+    // default sort
+    const sortItem = '-ctime';
+    data.sort = [sortItem];
+  }
+  // filter
+  // const status = getValue(params?.status, -1);
+  // if (status !== -1) {
+  //   data.filter = {
+  //     status: status,
+  //   };
+  // }
+
+  // keyword
+  const username = getValue(params?.username, '');
+  if (username !== '') {
+    data.keyword = username;
+    data.keywordFields = ['username'];
+  }
+  return defHttp.post<LogPageListGetResultModel>(
+    { url: Api.LogPageList, data },
+    {
+      errorMessageMode: 'modal',
+    },
+  );
+};

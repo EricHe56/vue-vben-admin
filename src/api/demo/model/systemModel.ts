@@ -11,7 +11,12 @@ export type RoleParams = {
   status?: string;
 };
 
+export type LogParams = {
+  username?: string;
+};
+
 export type RolePageParams = BasicPageParams & RoleParams;
+export type LogPageParams = BasicPageParams & LogParams;
 
 export type DeptParams = {
   deptName?: string;
@@ -180,6 +185,40 @@ export interface RoleListItem {
   createTime: string;
 }
 
+export interface ActionLogListItem {
+  dbId: string;
+  ctime: number;
+  mtime: number;
+  createTime: string;
+  adminDBId: string;
+  username: string;
+  action: string;
+  sourceIP: string;
+  URI: string;
+  body: string;
+  description: string;
+  result: string;
+  code: number;
+  error: string;
+}
+
+export interface ActionLog {
+  dbId: string;
+  ctime: number;
+  mtime: number;
+  createTime: string;
+  adminDBId: string;
+  username: string;
+  action: string;
+  sourceIP: string;
+  URI: string;
+  body: string;
+  description: string;
+  result: string;
+  code: number;
+  error: string;
+}
+
 /**
  * @description: Request list return value
  */
@@ -190,5 +229,6 @@ export type DeptListGetResultModel = BasicFetchResult<DeptListItem>;
 export type MenuListGetResultModel = BasicFetchResult<MenuListItem>;
 
 export type RolePageListGetResultModel = BasicFetchResult<RoleListItem>;
+export type LogPageListGetResultModel = BasicFetchResult<ActionLogListItem>;
 
 export type RoleListGetResultModel = RoleListItem[];

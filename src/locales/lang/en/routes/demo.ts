@@ -173,6 +173,7 @@ export default {
 
     menu: 'Menu management',
     role: 'Role management',
+    log: 'Log',
   },
   table: {
     table: 'Table',
