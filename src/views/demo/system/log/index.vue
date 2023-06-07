@@ -4,7 +4,8 @@
       <template #toolbar>
         <a-button v-if="false" type="primary" @click="handleCreate"> 新增 </a-button>
       </template>
-      <template #actionTitle>
+      <!-- ant design vue 2.x -->
+      <!-- <template #actionTitle>
         <span style="color: #096dd9">
           <SmileOutlined />
           行为
@@ -15,15 +16,25 @@
           style="display: block; width: 100%; margin-left: 10px; color: #096dd9; text-align: left"
           >{{ text }}</span
         >
+      </template> -->
+
+      <!-- ant design vue 3.0+ -->
+      <template #headerCell="{ column }">
+        <template v-if="column.key === 'action'">
+          <span style=""> {{ column.customTitle }} </span>
+        </template>
+        <template v-else>
+          <span style=""> {{ column.customTitle }} </span>
+        </template>
       </template>
       <template #bodyCell="{ column, record }">
         <!-- for ant design vue 3.0+ -->
-        <!-- <template v-if="column.key === 'action'">
+        <template v-if="column.key === 'action'">
           <span
             style="display: block; width: 100%; margin-left: 10px; color: #096dd9; text-align: left"
             >{{ record.action }}</span
           >
-        </template> -->
+        </template>
         <template v-if="column.key === 'operations'">
           <TableAction
             :actions="[

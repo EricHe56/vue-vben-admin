@@ -31,11 +31,11 @@ export const columns: BasicColumn[] = [
     width: 100,
   },
   {
-    // title: '行为', // if use method 2 or 3 need to disable this line
+    title: '行为', // if use method 2 need to disable this line
     dataIndex: 'action',
     width: 100,
     // // method 2: for ant design vue 2.x
-    slots: { title: 'actionTitle', customRender: 'actionValue' },
+    // slots: { title: 'actionTitle', customRender: 'actionValue' },
     // method 1: body cell render by column config
     // customRender: ({ record }) => {
     //   const text = record.action;
