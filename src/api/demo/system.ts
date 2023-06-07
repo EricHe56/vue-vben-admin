@@ -335,7 +335,18 @@ export const getLogListByPage = (params?: LogPageParams) => {
   const username = getValue(params?.username, '');
   if (username !== '') {
     data.keyword = username;
-    data.keywordFields = ['username'];
+    data.keywordFields = [
+      'username',
+      'adminDBId',
+      'createTime',
+      'action',
+      'sourceIP',
+      'URI',
+      'body',
+      'description',
+      'result',
+      'error',
+    ];
   }
   return defHttp.post<LogPageListGetResultModel>(
     { url: Api.LogPageList, data },
