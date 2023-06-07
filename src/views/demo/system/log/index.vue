@@ -104,6 +104,10 @@
           // slots: { customRender: 'action' },
           fixed: undefined,
         },
+        pagination: {
+          pageSize: 50, // default page size
+          // defaultPageSize: 50,
+        },
       });
 
       function afterFetch(dataList: any[]) {
