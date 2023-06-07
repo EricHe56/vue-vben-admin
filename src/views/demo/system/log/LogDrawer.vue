@@ -4,8 +4,10 @@
     @register="registerDrawer"
     showFooter
     :title="getTitle"
-    width="500px"
+    width="50%"
     @ok="handleSubmit"
+    :showOkBtn="false"
+    :cancelText="'返回'"
   >
     <BasicForm @register="registerForm">
       <template #menu="{ model, field }">
@@ -71,7 +73,7 @@
         }
       });
 
-      const getTitle = computed(() => (!unref(isUpdate) ? '新增角色' : '编辑角色'));
+      const getTitle = computed(() => (!unref(isUpdate) ? '新增' : '日志详情'));
 
       async function handleSubmit() {
         try {

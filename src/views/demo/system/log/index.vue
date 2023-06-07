@@ -40,6 +40,7 @@
             :actions="[
               {
                 icon: 'clarity:info-standard-line', // 'clarity:note-edit-line',
+                label: '详情',
                 onClick: handleEdit.bind(null, record),
               },
               // {
