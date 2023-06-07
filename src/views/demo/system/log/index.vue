@@ -39,7 +39,7 @@
           <TableAction
             :actions="[
               {
-                icon: 'clarity:note-edit-line',
+                icon: 'clarity:info-standard-line', // 'clarity:note-edit-line',
                 onClick: handleEdit.bind(null, record),
               },
               // {

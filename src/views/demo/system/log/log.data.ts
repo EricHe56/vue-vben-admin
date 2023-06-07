@@ -79,6 +79,15 @@ export const searchFormSchema: FormSchema[] = [
 
 export const formSchema: FormSchema[] = [
   {
+    field: 'createTime',
+    label: '时间',
+    required: true,
+    component: 'Input',
+    componentProps: {
+      readonly: true,
+    },
+  },
+  {
     field: 'adminDBId',
     label: 'ID',
     required: true,
@@ -106,15 +115,6 @@ export const formSchema: FormSchema[] = [
     },
   },
   {
-    field: 'createTime',
-    label: '创建时间',
-    required: true,
-    component: 'Input',
-    componentProps: {
-      readonly: true,
-    },
-  },
-  {
     field: 'result',
     label: '结果',
     required: true,
@@ -126,7 +126,7 @@ export const formSchema: FormSchema[] = [
   {
     field: 'code',
     label: 'Code',
-    required: true,
+    // required: true,
     component: 'Input',
     componentProps: {
       readonly: true,
@@ -135,8 +135,44 @@ export const formSchema: FormSchema[] = [
   {
     field: 'error',
     label: 'Error',
-    required: true,
+    // required: true,
     component: 'Input',
+    componentProps: {
+      readonly: true,
+    },
+  },
+  {
+    field: 'sourceIP',
+    label: 'sourceIP',
+    // required: true,
+    component: 'Input',
+    componentProps: {
+      readonly: true,
+    },
+  },
+  {
+    field: 'URI',
+    label: 'URI',
+    // required: true,
+    component: 'Input',
+    componentProps: {
+      readonly: true,
+    },
+  },
+  {
+    field: 'body',
+    label: 'body',
+    // required: true,
+    component: 'InputTextArea',
+    componentProps: {
+      readonly: true,
+    },
+  },
+  {
+    field: 'description',
+    label: 'description',
+    // required: true,
+    component: 'InputTextArea',
     componentProps: {
       readonly: true,
     },
