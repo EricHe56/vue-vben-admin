@@ -63,7 +63,7 @@
 <script lang="ts">
   // import { SmileOutlined } from '@ant-design/icons-vue';
   import { type Recordable } from '@vben/types';
-  import { defineComponent } from 'vue';
+  import { defineComponent, onMounted } from 'vue';
 
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { getLogListByPage } from '/@/api/demo/system';
@@ -71,7 +71,7 @@
   import { useDrawer } from '/@/components/Drawer';
   import RoleDrawer from './LogDrawer.vue';
 
-  import { columns, searchFormSchema /*, setReloadFunc*/ } from './log.data';
+  import { setActionForm, columns, searchFormSchema /*, setReloadFunc*/ } from './log.data';
 
   // import { useMessage } from '/@/hooks/web/useMessage';
   // import { useI18n } from '/@/hooks/web/useI18n';
@@ -84,7 +84,7 @@
     components: { BasicTable, RoleDrawer, TableAction /*, SmileOutlined*/ },
     setup() {
       const [registerDrawer, { openDrawer }] = useDrawer();
-      const [registerTable, { reload }] = useTable({
+      const [registerTable, { reload, getForm }] = useTable({
         title: '日志列表',
         api: getLogListByPage,
         afterFetch: afterFetch,
@@ -93,6 +93,7 @@
           labelWidth: 120,
           schemas: searchFormSchema,
           autoSubmitOnEnter: true,
+          // submitOnChange: true,
         },
         useSearchForm: true,
         showTableSetting: true,
@@ -109,6 +110,11 @@
           pageSize: 50, // default page size
           // defaultPageSize: 50,
         },
+      });
+
+      onMounted(() => {
+        const tblActionForm = getForm();
+        setActionForm(tblActionForm);
       });
 
       function afterFetch(dataList: any[]) {

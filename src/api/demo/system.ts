@@ -311,6 +311,7 @@ export const getLogListByPage = (params?: LogPageParams) => {
   const data: any = {
     offset: offset,
     size: size,
+    filter: {},
   };
   // sort
   const sortField = getValue(params?.field, '');
@@ -324,17 +325,20 @@ export const getLogListByPage = (params?: LogPageParams) => {
     data.sort = [sortItem];
   }
   // filter
-  // const status = getValue(params?.status, -1);
-  // if (status !== -1) {
-  //   data.filter = {
-  //     status: status,
-  //   };
-  // }
+  const result = getValue(params?.result, '');
+  if (result !== '') {
+    data.filter.result = result;
+  }
+
+  const code = getValue(params?.code, '');
+  if (code !== '' && !isNaN(Number(code))) {
+    data.filter.code = Number(code);
+  }
 
   // keyword
-  const username = getValue(params?.username, '');
-  if (username !== '') {
-    data.keyword = username;
+  const keyword = getValue(params?.keyword, '');
+  if (keyword !== '') {
+    data.keyword = keyword;
     data.keywordFields = [
       'username',
       'adminDBId',

@@ -12,7 +12,9 @@ export type RoleParams = {
 };
 
 export type LogParams = {
-  username?: string;
+  keyword?: string;
+  code?: string;
+  result?: string;
 };
 
 export type RolePageParams = BasicPageParams & RoleParams;
