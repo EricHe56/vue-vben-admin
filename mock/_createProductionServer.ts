@@ -23,7 +23,7 @@ Object.keys(modules).forEach((key) => {
   if (key.includes('/_')) {
     return;
   }
-  if (typeof modules[e].default === 'undefined') {
+  if (typeof modules[key].default === 'undefined') {
     return;
   }
   mockModules.push(...modules[key].default);
