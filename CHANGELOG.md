@@ -1,3 +1,26 @@
+nvs 18.07.0
+
+- 安装依赖
+
+```bash
+cd vue-vben-admin
+
+pnpm install
+
+```
+
+- 运行
+
+```bash
+pnpm serve
+```
+
+- 打包
+
+```bash
+pnpm build
+```
+
 ## [2.8.0](https://github.com/anncwb/vue-vben-admin/compare/v2.7.2...v2.8.0) (2021-11-03)
 
 ### Bug Fixes
