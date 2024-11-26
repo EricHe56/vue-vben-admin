@@ -23,6 +23,9 @@ Object.keys(modules).forEach((key) => {
   if (key.includes('/_')) {
     return;
   }
+  if (typeof modules[e].default === 'undefined') {
+    return;
+  }
   mockModules.push(...modules[key].default);
 });
 
